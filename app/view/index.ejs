@@ -41,12 +41,15 @@
     button {
       border: 0;
     }
+    .button-container {
+      margin-bottom: 160x;
+    }
   </style>
 </head>
 
 <body>
   <div class="button-container">
-    <button id="add">新建</button>
+    <button id="add"  style="margin-left: 6px; width: 80px; background: #0ca9ff; color: #FFF;">新建</button>
   </div>
   <div class="table-container">
     <form action="/save?_csrf=<%=csrf%>" method="post" onkeydown="if(event.keyCode==13)return false;" >
