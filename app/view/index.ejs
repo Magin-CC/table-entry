@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>表格</title>
+  <style>
+    html,
+    body {
+      font-size: 12px;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow: scroll
+    }
+
+    table,
+    tr,
+    th,
+    td {
+      border: 1px solid #DDD;
+      border-collapse: collapse;
+    }
+
+    thead {
+      white-space: nowrap;
+      overflow: scroll;
+    }
+
+    thead th {
+      padding: 2px 4px;
+    }
+
+    input {
+      text-align: center;
+    }
+
+    button {
+      border: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="button-container">
+    <button id="add">新建</button>
+  </div>
+  <div class="table-container">
+    <form action="/save?_csrf=<%=csrf%>" method="post" onkeydown="if(event.keyCode==13)return false;" >
+      <table id="table">
+        <thead>
+          <tr>
+            <th>年</th>
+            <th>月</th>
+            <th>日</th>
+            <th>凭证号数</th>
+            <th>对方科目</th>
+            <th>摘要</th>
+            <th>√</th>
+            <th>收入(借方)金额</th>
+            <th>付出(贷方)金额</th>
+            <th>结存金额</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <%for(var i in data){%>
+        <tr class="tr">
+          <td><%=data[i]['year']%></td>
+          <td><%=data[i]['month']%></td>
+          <td><%=data[i]['day']%></td>
+          <td><%=data[i]['pzhs']%></td>
+          <td><%=data[i]['dfkm']%></td>
+          <td><%=data[i]['zy']%></td>
+          <td><%=data[i]['yes']?'√':''%></td>
+          <td><%=data[i]['srje']%></td>
+          <td><%=data[i]['fcje']%></td>
+          <td><%=data[i]['jcje']%></td>
+          <td> </td>
+        </tr>
+        <%}%>
+      </table>
+    </form>
+  </div>
+</body>
+<script src="http://cdn.staticfile.org/jquery/2.0.0/jquery.min.js"></script>
+<script>
+  $('#add').click(function (e) {
+    $('.tr').css('background', '#FFF');
+    var date = new Date();
+    $('#table').append(
+      '<tr><td><input style="width: 60px" name="year" value="' +
+      date.getFullYear()
+      + '"/></td><td><input style="width: 40px" name="month" value="' +
+      (date.getMonth() + 1)
+      + '" /></td><td><input style="width: 60px" name="day" value="' +
+      date.getDate()
+      + '" /></td><td><input name="pzhs" /></td>' +
+      '<td><input name="dfkm" /></td>' +
+      '<td><input name="zy" /></td>' +
+      '<td><input type="checkbox" name="yes" />' +
+      '</td><td><input name="srje" style="width: 100px" /></td>' +
+      '<td><input name="fcje" style="width: 100px"  /></td>' +
+      '<td><input name="jcje" style="width: 100px"  /></td>' +
+      '<td><div style="width: 120px; text-align: center;">' +
+      '<button type="cancel" class="cancel" style="width: 50px; background: #ff3838; color: #FFF;">取消</button>' +
+      '<button type="submit" class="save" style="margin-left: 6px; width: 50px; background: #0ca9ff; color: #FFF;">保存</button></div></td>' +
+      '</tr>'
+    )
+  });
+  $(document).on('click', '.cancel', function (e) {
+    e.preventDefault()
+    $(this).parents('tr').remove();
+  });
+  $(document).on('click', '.tr', function(e) {
+    $('.tr').css('background', '#FFF');
+    $(this).css('background', '#a2a2a2')
+  })
+
+</script>
+
+</html>
